@@ -99,4 +99,5 @@ test:
 #     migrations_paths: db/cable_migrate
 
 production:
+  <<: *default
   url: <%= ENV["DATABASE_URL"] %>
