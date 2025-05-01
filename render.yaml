@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: rails-backend
+    runtime: ruby
+    plan: free
+    buildCommand: './bin/render-build.sh'
+    # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
+    startCommand: './bin/rails server'
+    envVars:
+      - key: DATABASE_URL
+        sync: false # you'll set this manually in the Render dashboard
+      - key: RAILS_MASTER_KEY
+        sync: false # You'll provide this value on Blueprint creation
+      - key: WEB_CONCURRENCY
+        value: 2 # Recommended default
