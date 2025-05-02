@@ -4,8 +4,7 @@ services:
     runtime: ruby
     plan: free
     buildCommand: './bin/render-build.sh'
-    # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
-    startCommand: './bin/rails server'
+    startCommand: ./bin/rails server -p $PORT
     envVars:
       - key: DATABASE_URL
         sync: false # you'll set this manually in the Render dashboard
