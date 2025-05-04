@@ -9,23 +9,12 @@ class PostsController < ApplicationController
     page = params[:page].to_i > 0 ? params[:page].to_i : 1
     per_page = params[:per_page].to_i > 0 ? params[:per_page].to_i : 10
   
-    total_count = Post.count
-    total_pages = (total_count.to_f / per_page).ceil
-  
     posts = Post.includes(:user, comments: :user)
                 .order(created_at: :desc)
                 .offset((page - 1) * per_page)
                 .limit(per_page)
   
-    render json: {
-      posts: ActiveModelSerializers::SerializableResource.new(posts),
-      meta: {
-        current_page: page,
-        per_page: per_page,
-        total_count: total_count,
-        total_pages: total_pages
-      }
-    }
+    render json: { posts: ActiveModelSerializers::SerializableResource.new(posts) }
   end
 
   def show

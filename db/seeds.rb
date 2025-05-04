@@ -31,7 +31,7 @@ user_jane = User.find_by(username: 'jane_smith')
 
 if user_john && user_jane # Only create posts if these users exist.
   posts_data = []
-  25.times do |i|
+  50.times do |i|
     user = i.even? ? user_john : user_jane # Alternate users
     posts_data << {
       title: "Post #{i + 1} by #{user.username}",
