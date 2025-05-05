@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   post '/login', to: 'auth#login'
   post '/signup', to: 'auth#signup'
+  post '/logout', to: 'auth#logout'
 
   # get "pages/home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
