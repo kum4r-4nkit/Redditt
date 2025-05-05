@@ -1,5 +1,7 @@
 # app/controllers/comments_controller.rb
 class CommentsController < ApplicationController
+  include AuthorizeRequest
+
   before_action :set_post
   before_action :set_comment, only: [:show, :update, :destroy]
   before_action :authorize_request, only: [:create, :update, :destroy]
