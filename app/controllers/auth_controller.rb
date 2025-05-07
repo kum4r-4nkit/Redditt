@@ -3,7 +3,7 @@ class AuthController < ApplicationController
     user = User.new(user_params)
     if user.save
       token = JsonWebToken.encode(user_id: user.id)
-      Session.create!(user: user, jti: token)
+      Session.create!(user: user, jti: token, expires_at: 24.hours.from_now)
       render json: { token: token, user: user }, status: :created
     else
       render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
@@ -15,7 +15,7 @@ class AuthController < ApplicationController
     
     if user&.authenticate(params[:password])
       token = JsonWebToken.encode(user_id: user.id)
-      Session.create!(user: user, jti: token)
+      Session.create!(user: user, jti: token, expires_at: 24.hours.from_now)
       render json: { token: token, user: user }, status: :ok
     else
       render json: { error: 'Invalid credentials' }, status: :unauthorized
