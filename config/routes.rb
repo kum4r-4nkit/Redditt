@@ -17,9 +17,15 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
 
-  resources :users, only: [:show]
+  resources :users, only: [:show, :update]
 
   resources :posts do
     resources :comments, only: [:create, :show, :update, :destroy]
+  end
+
+  scope :profile do
+    get '/', to: 'users#show'
+    patch '/', to: 'users#update'
+    patch '/update_password', to: 'users#update_password'
   end
 end
