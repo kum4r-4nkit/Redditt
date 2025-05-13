@@ -28,6 +28,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def posts
+    Rails.logger.info "\n\n\n@@##>>>#{params}<<<------@@@@@\n\n\n"
+    page = params[:page].to_i > 0 ? params[:page].to_i : 1
+    per_page = params[:per_page].to_i > 0 ? params[:per_page].to_i : 10
+  
+    posts = @current_user.posts.includes(comments: :user)
+                               .order(created_at: :desc)
+                               .offset((page - 1) * per_page)
+                               .limit(per_page)
+  
+    render json: { posts: ActiveModelSerializers::SerializableResource.new(posts) }, status: :ok
+  end
+
   private
 
   def user_params

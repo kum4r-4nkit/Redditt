@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   scope :profile do
     get '/', to: 'users#show'
+    get '/posts', to: 'users#posts'
     patch '/', to: 'users#update'
     patch '/update_password', to: 'users#update_password'
   end
