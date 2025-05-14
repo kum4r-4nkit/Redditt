@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   include AuthorizeRequest
 
   before_action :authorize_request, except: [:index, :show]  # Or remove `except:` to protect all
-  before_action :set_post, only: [:show, :update, :destroy]
+  before_action :set_post, only: [:update, :destroy]
 
   def index
     page = params[:page].to_i > 0 ? params[:page].to_i : 1
@@ -13,12 +13,23 @@ class PostsController < ApplicationController
                 .order(created_at: :desc)
                 .offset((page - 1) * per_page)
                 .limit(per_page)
-  
-    render json: { posts: ActiveModelSerializers::SerializableResource.new(posts) }
+
+    render json: {
+      posts: posts.map do |post|
+        {
+          id: post.id,
+          title: post.title,
+          body: post.body,
+          created_at: post.created_at,
+          comment_count: post.comments.size
+        }
+      end
+    }
   end
 
   def show
-    render json: @post.as_json(include: [:user, :comments])
+    post = Post.includes(:user, comments: :user).find(params[:id])
+    render json: post, include: ['user', 'comments.user']
   end
 
   def create
