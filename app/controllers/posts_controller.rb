@@ -2,6 +2,7 @@
 class PostsController < ApplicationController
   include AuthorizeRequest
   before_action :authorize_request, except: [:index, :show]  # Or remove `except:` to protect all
+  before_action :set_post, only: [:show, :update]
 
   def index
     page = params[:page].to_i > 0 ? params[:page].to_i : 1
@@ -26,8 +27,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    post = Post.includes(:user, comments: :user).find(params[:id])
-    render json: post, include: ['user', 'comments.user']
+    render json: @post, include: ['user', 'comments.user']
   end
 
   def create
@@ -41,19 +41,17 @@ class PostsController < ApplicationController
   end
 
   def update
-    post = Post.includes(:user, comments: :user).find(params[:id])
-    if post.user_id != @current_user.id
+    if @post.user_id != @current_user.id
       render json: { error: "Not authorized" }, status: :unauthorized
       return
     end
   
-    if post.update(post_params)
-      render json: post, include: ['user', 'comments.user']
+    if @post.update(post_params)
+      render json: @post, include: ['user', 'comments.user']
     else
-      render json: { errors: post.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
     end
   end
-  
 
   def destroy
     post = Post.find(params.expect(:id))
@@ -67,6 +65,10 @@ class PostsController < ApplicationController
   end
 
   private
+
+  def set_post
+    @post = Post.includes(:user, comments: :user).find(params[:id])
+  end
 
   def post_params
     params.require(:post).permit(:title, :body)

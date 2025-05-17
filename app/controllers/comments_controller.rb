@@ -3,13 +3,13 @@ class CommentsController < ApplicationController
   include AuthorizeRequest
 
   before_action :set_post
-  before_action :set_comment, only: [:show, :update, :destroy]
-  before_action :authorize_request, only: [:create, :update, :destroy]
+  before_action :set_comment, only: [:show, :destroy]
+  before_action :authorize_request, only: [:create, :destroy]
 
   # Create a comment for a post
   def create
     @comment = @post.comments.new(comment_params)
-    @comment.user = current_user
+    @comment.user = @current_user
 
     if @comment.save
       render json: @comment, status: :created
@@ -21,15 +21,6 @@ class CommentsController < ApplicationController
   # Show a comment
   def show
     render json: @comment
-  end
-
-  # Update a comment
-  def update
-    if @comment.update(comment_params)
-      render json: @comment
-    else
-      render json: { errors: @comment.errors.full_messages }, status: :unprocessable_entity
-    end
   end
 
   # Destroy a comment
