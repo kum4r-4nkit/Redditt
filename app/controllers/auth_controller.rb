@@ -1,4 +1,5 @@
 class AuthController < ApplicationController
+  # @route POST /signup (signup)
   def signup
     user = User.new(user_params)
     if user.save
@@ -10,6 +11,7 @@ class AuthController < ApplicationController
     end
   end
 
+  # @route POST /login (login)
   def login
     user = User.find_by(email: params[:email])
     
@@ -22,6 +24,7 @@ class AuthController < ApplicationController
     end
   end
 
+  # @route POST /logout (logout)
   def logout
     token = request.headers['Authorization']&.split&.last
     active_token = Session.find_by(jti: token)

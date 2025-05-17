@@ -4,6 +4,7 @@ class PostsController < ApplicationController
   before_action :authorize_request, except: [:index, :show]  # Or remove `except:` to protect all
   before_action :set_post, only: [:show, :update]
 
+  # @route GET /posts (posts)
   def index
     page = params[:page].to_i > 0 ? params[:page].to_i : 1
     per_page = params[:per_page].to_i > 0 ? params[:per_page].to_i : 10
@@ -26,10 +27,12 @@ class PostsController < ApplicationController
     }
   end
 
+  # @route GET /posts/:id (post)
   def show
     render json: @post, include: ['user', 'comments.user']
   end
 
+  # @route POST /posts (posts)
   def create
     post = @current_user.posts.build(post_params)
 
@@ -40,6 +43,8 @@ class PostsController < ApplicationController
     end
   end
 
+  # @route PATCH /posts/:id (post)
+  # @route PUT /posts/:id (post)
   def update
     if @post.user_id != @current_user.id
       render json: { error: "Not authorized" }, status: :unauthorized
@@ -53,6 +58,7 @@ class PostsController < ApplicationController
     end
   end
 
+  # @route DELETE /posts/:id (post)
   def destroy
     post = Post.find(params.expect(:id))
     if post.user_id != @current_user.id

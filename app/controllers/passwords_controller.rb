@@ -1,5 +1,6 @@
 # app/controllers/passwords_controller.rb
 class PasswordsController < ApplicationController
+  # @route POST /password/forgot (password_forgot)
   def forgot
     user = User.find_by(email: params[:email])
 
@@ -15,6 +16,7 @@ class PasswordsController < ApplicationController
     end
   end
 
+  # @route POST /password/reset (password_reset)
   def reset
     user = User.find_by(reset_password_token: params[:token])
 

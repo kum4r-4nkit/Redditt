@@ -4,10 +4,15 @@ class UsersController < ApplicationController
 
   before_action :authorize_request
 
+  # @route GET /users/:id (user)
+  # @route GET /profile
   def show
     render json: @current_user
   end
 
+  # @route PATCH /users/:id (user)
+  # @route PUT /users/:id (user)
+  # @route PATCH /profile
   def update
     if @current_user.update(user_params)
       render json: @current_user
@@ -16,6 +21,7 @@ class UsersController < ApplicationController
     end
   end
 
+  # @route PATCH /profile/update_password (update_password)
   def update_password
     if @current_user.authenticate(params[:current_password])
       if @current_user.update(password_params)
@@ -28,6 +34,7 @@ class UsersController < ApplicationController
     end
   end
 
+  # @route GET /profile/posts
   def posts
     page = params[:page].to_i > 0 ? params[:page].to_i : 1
     per_page = params[:per_page].to_i > 0 ? params[:per_page].to_i : 10

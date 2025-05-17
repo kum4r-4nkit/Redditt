@@ -61,6 +61,8 @@ group :development, :test do
   gem 'faker'
   gem 'pry'
   gem 'letter_opener'
+  gem "bullet", group: "development"
+  gem "chusaku", require: false
 end
 
 group :development do

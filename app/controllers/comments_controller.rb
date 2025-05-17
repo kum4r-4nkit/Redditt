@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
   before_action :authorize_request, only: [:create, :destroy]
 
   # Create a comment for a post
+  # @route POST /posts/:post_id/comments (post_comments)
   def create
     @comment = @post.comments.new(comment_params)
     @comment.user = @current_user
@@ -19,11 +20,13 @@ class CommentsController < ApplicationController
   end
 
   # Show a comment
+  # @route GET /posts/:post_id/comments/:id (post_comment)
   def show
     render json: @comment
   end
 
   # Destroy a comment
+  # @route DELETE /posts/:post_id/comments/:id (post_comment)
   def destroy
     @comment.destroy
     head :no_content
