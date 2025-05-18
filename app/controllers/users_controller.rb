@@ -2,8 +2,6 @@
 class UsersController < ApplicationController
   include AuthorizeRequest
 
-  before_action :authorize_request
-
   # @route GET /users/:id (user)
   # @route GET /profile
   def show

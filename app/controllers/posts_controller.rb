@@ -1,7 +1,6 @@
 # app/controllers/posts_controller.rb
 class PostsController < ApplicationController
   include AuthorizeRequest
-  before_action :authorize_request, except: [:index, :show]  # Or remove `except:` to protect all
   before_action :set_post, only: [:show, :update]
 
   # @route GET /posts (posts)

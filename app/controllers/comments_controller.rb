@@ -4,7 +4,6 @@ class CommentsController < ApplicationController
 
   before_action :set_post
   before_action :set_comment, only: [:show, :destroy]
-  before_action :authorize_request, only: [:create, :destroy]
 
   # Create a comment for a post
   # @route POST /posts/:post_id/comments (post_comments)
