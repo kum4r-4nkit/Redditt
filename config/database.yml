@@ -98,6 +98,14 @@ test:
 #     database: redditt_production_cable
 #     migrations_paths: db/cable_migrate
 
+#########################################################################
+# production:
+#   <<: *default
+#   url: <%= ENV["DATABASE_URL"] %>
+
+#########################################################################
 production:
-  <<: *default
-  url: <%= ENV["DATABASE_URL"] %>
+  primary:
+    url: <%= ENV['DATABASE_URL'] %>
+  queue:
+    url: <%= ENV['DATABASE_URL'] %>
