@@ -106,6 +106,15 @@ test:
 #########################################################################
 production:
   primary:
-    url: <%= ENV['DATABASE_URL'] %>
+    adapter: postgresql
+    encoding: unicode
+    url: <%= ENV["DATABASE_URL"] %>
+    pool: 5
+
+  cache:
+    adapter: postgresql
+    url: <%= ENV["DATABASE_URL"] %>
+    pool: 5
+
   queue:
     url: <%= ENV['DATABASE_URL'] %>
