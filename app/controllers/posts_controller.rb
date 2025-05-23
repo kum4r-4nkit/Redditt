@@ -20,7 +20,8 @@ class PostsController < ApplicationController
           title: post.title,
           body: post.body.truncate(150),
           created_at: post.created_at,
-          comment_count: post.comments.size
+          comment_count: post.comments.size,
+          user_name: post.user.username
         }
       end
     }
