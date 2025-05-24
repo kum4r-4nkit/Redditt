@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require "rails"
+require_relative "../config/environment"
+
+# Load credentials from production
+database_url = Rails.application.credentials.dig(:production, :database_url)
+
+if database_url.nil?
+  puts "DATABASE_URL not found in credentials. Please add it under production:database_url."
+  exit 1
+end
+
+# Set ENV and launch Rails console
+ENV["DATABASE_URL"] = database_url
+ENV["RAILS_ENV"] = "production"
+
+exec("bundle exec rails console")

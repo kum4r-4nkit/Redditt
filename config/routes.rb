@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   post '/signup', to: 'auth#signup'
   post '/logout', to: 'auth#logout'
 
-  post '/password/forgot', to: 'passwords#forgot'
-  post '/password/reset', to: 'passwords#reset'
+  # will uncomment this when emails are working
+  # post '/password/forgot', to: 'passwords#forgot'
+  # post '/password/reset', to: 'passwords#reset'
 
   # get "pages/home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
